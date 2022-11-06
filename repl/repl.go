@@ -1,10 +1,10 @@
 package repl
 
 import (
-	"aap/lexer"
-	"aap/token"
 	"bufio"
 	"fmt"
+	"github.com/mrdvince/aap/lexer"
+	"github.com/mrdvince/aap/token"
 	"io"
 )
 

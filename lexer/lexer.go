@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"aap/token"
+	"github.com/mrdvince/aap/token"
 )
 
 type Lexer struct {

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"aap/repl"
 	"fmt"
+	"github.com/mrdvince/aap/repl"
 	"os"
 	"os/user"
 )
