@@ -60,7 +60,7 @@ func (l *Lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{
-				Type:    token.NOT_EQ,
+				Type:    token.NotEq,
 				Literal: string(ch) + string(l.ch),
 			}
 		} else {

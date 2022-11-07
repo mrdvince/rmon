@@ -91,7 +91,7 @@ func TestNextToken(t *testing.T) {
 		{token.FALSE, "false"},
 		{token.SEMICOLON, ";"},
 		{token.EQ, "=="},
-		{token.NOT_EQ, "!="},
+		{token.NotEq, "!="},
 		{token.EOF, ""},
 	}
 	l := New(input)
