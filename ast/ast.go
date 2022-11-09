@@ -18,6 +18,10 @@ type Expression interface {
 type Program struct {
 	Statements []Statement
 }
+type ReturnStatement struct {
+	Token       token.Token // return token
+	ReturnValue Expression
+}
 type Identifier struct {
 	Token token.Token
 	Value string
@@ -28,6 +32,9 @@ type LetStatement struct {
 	Name  *Identifier
 	Value Expression
 }
+
+func (rs *ReturnStatement) statementNode()       {}
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
 
 func (i *Identifier) expressionNode()      {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
