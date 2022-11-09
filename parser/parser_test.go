@@ -17,6 +17,7 @@ let foobar = 838383;
 	l := lexer.New(input)
 	p := New(l)
 	program := p.ParseProgram()
+	checkParseErrors(t, p)
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
 	}
@@ -38,7 +39,17 @@ let foobar = 838383;
 		}
 	}
 }
-
+func checkParseErrors(t *testing.T, p *Parser) {
+	errors := p.Errors()
+	if len(errors) == 0 {
+		return
+	}
+	t.Errorf("parser has %d errors", len(errors))
+	for _, msg := range errors {
+		t.Errorf("parser error: %q", msg)
+	}
+	t.FailNow()
+}
 func testLetStatement(t *testing.T, stmt ast.Statement, identifier string /* name e.g x or foo in foo()*/) bool {
 	if stmt.TokenLiteral() != "let" {
 		t.Errorf("stmt.TokenLiteral not 'let'. got=%q", stmt.TokenLiteral())
