@@ -1,4 +1,4 @@
-# aap
+# rmon
 
 An interpreter in Rust
 
@@ -11,8 +11,8 @@ Install Rust
 Clone the repo and cd into the repo
 
 ```bash
-  git clone https://github.com/mrdvince/aap.git
-  cd aap
+  git clone https://github.com/mrdvince/rmon.git
+  cd rmon
 ```
 
 ## Run
