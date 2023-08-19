@@ -1,3 +1,7 @@
+use std::collections::HashMap;
+
+use lazy_static::lazy_static;
+
 pub type TokenType = String;
 
 pub struct Token {
@@ -45,4 +49,19 @@ impl Tokens {
             Tokens::LET => "LET",
         }
     }
+}
+
+lazy_static! {
+    static ref KEYWORDS: HashMap<&'static str, &'static str> = {
+        HashMap::from([
+            ("fn", Tokens::FUNCTION.as_str()),
+            ("let", Tokens::LET.as_str()),
+        ])
+    };
+}
+pub fn look_up_ident(ident: &str) -> TokenType {
+    if let Some(i) = KEYWORDS.get(ident) {
+        return i.to_string();
+    }
+    Tokens::IDENT.as_str().to_string()
 }

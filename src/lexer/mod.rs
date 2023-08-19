@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use crate::token::{Token, TokenType, Tokens};
+use crate::token::{look_up_ident, Token, TokenType, Tokens};
 
 pub struct Lexer {
     input: String,
@@ -42,7 +42,6 @@ impl Lexer {
         self.input[start_position..self.position].to_string()
     }
 
-
     pub fn next_token(&mut self) -> Token {
         let tok = match self.ch {
             Some('=') => new_token(Tokens::ASSIGN.as_str().to_string(), self.ch.unwrap()),
@@ -59,8 +58,9 @@ impl Lexer {
             },
             Some(ch) if is_letter(ch) => {
                 let literal = self.read_identifier();
+                let token_type = look_up_ident(&literal);
                 Token {
-                    r#type: Tokens::IDENT.as_str().to_string(), // Assuming IDENT represents identifiers
+                    r#type: token_type,
                     literal,
                 }
             }
