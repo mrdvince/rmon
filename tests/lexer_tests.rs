@@ -52,6 +52,7 @@ fn test_next_token() {
     ];
 
     let mut l = Lexer::new(input);
+    println!("{l:?}");
     for (i, (expected_type, expected_literal)) in tests.iter().enumerate() {
         let tok = l.next_token();
         assert_eq!(

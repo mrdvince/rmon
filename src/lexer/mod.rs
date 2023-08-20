@@ -2,6 +2,7 @@
 
 use crate::token::{look_up_ident, Token, TokenType, Tokens};
 
+#[derive(Debug)]
 pub struct Lexer {
     input: String,
     position: usize,
@@ -41,6 +42,17 @@ impl Lexer {
         }
         self.input[start_position..self.position].to_string()
     }
+    fn read_number(&mut self) -> String {
+        let start_position = self.position;
+        while let Some(ch) = self.ch {
+            if is_digit(ch) {
+                self.read_char();
+            } else {
+                break;
+            }
+        }
+        self.input[start_position..self.position].to_string()
+    }
     fn skip_white_space(&mut self) {
         while let Some(ch) = self.ch {
             if ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r' {
@@ -65,6 +77,14 @@ impl Lexer {
                 r#type: Tokens::EOF.as_str().to_string(),
                 literal: "".to_string(),
             },
+            Some(ch) if is_digit(ch) => {
+                let token_type = Tokens::INT.as_str().to_string();
+                let literal = self.read_number();
+                Token {
+                    r#type: token_type,
+                    literal,
+                }
+            }
             Some(ch) if is_letter(ch) => {
                 let literal = self.read_identifier();
                 let token_type = look_up_ident(&literal);
@@ -81,6 +101,10 @@ impl Lexer {
         self.read_char();
         tok
     }
+}
+
+fn is_digit(ch: char) -> bool {
+    ch.is_ascii_digit()
 }
 
 fn new_token(token_type: TokenType, ch: char) -> Token {
