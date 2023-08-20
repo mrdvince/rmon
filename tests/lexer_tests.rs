@@ -1,5 +1,5 @@
 use rmon::lexer::Lexer;
-use rmon::token::Tokens;
+use rmon::token::{Token, Tokens};
 
 #[test]
 fn test_next_token() {
@@ -9,6 +9,8 @@ fn test_next_token() {
             \n  x + y;\
             \n};\
             \nlet result = add(five, ten);\
+            \n!-/*5;
+            \n5 < 10 > 5;
             \n";
 
     let tests = [
@@ -47,6 +49,18 @@ fn test_next_token() {
         (Tokens::COMMA.as_str(), ","),
         (Tokens::IDENT.as_str(), "ten"),
         (Tokens::RPAREN.as_str(), ")"),
+        (Tokens::SEMICOLON.as_str(), ";"),
+        (Tokens::BANG.as_str(), "!"),
+        (Tokens::MINUS.as_str(), "-"),
+        (Tokens::SLASH.as_str(), "/"),
+        (Tokens::ASTERISK.as_str(), "*"),
+        (Tokens::INT.as_str(), "5"),
+        (Tokens::SEMICOLON.as_str(), ";"),
+        (Tokens::INT.as_str(), "5"),
+        (Tokens::LT.as_str(), "<"),
+        (Tokens::INT.as_str(), "10"),
+        (Tokens::GT.as_str(), ">"),
+        (Tokens::INT.as_str(), "5"),
         (Tokens::SEMICOLON.as_str(), ";"),
         (Tokens::EOF.as_str(), ""),
     ];

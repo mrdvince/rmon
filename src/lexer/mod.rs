@@ -40,6 +40,7 @@ impl Lexer {
         }
         self.input[start_position..self.position].to_string()
     }
+    // TODO Support floats, and numbers in hex
     fn read_number(&mut self) -> String {
         let start_position = self.position;
         while let Some(ch) = self.ch {
@@ -89,6 +90,12 @@ impl Lexer {
                     Some(')') => new_token(Tokens::RPAREN.as_str().to_string(), self.ch.unwrap()),
                     Some(',') => new_token(Tokens::COMMA.as_str().to_string(), self.ch.unwrap()),
                     Some('+') => new_token(Tokens::PLUS.as_str().to_string(), self.ch.unwrap()),
+                    Some('-') => new_token(Tokens::MINUS.as_str().to_string(), self.ch.unwrap()),
+                    Some('!') => new_token(Tokens::BANG.as_str().to_string(), self.ch.unwrap()),
+                    Some('*') => new_token(Tokens::ASTERISK.as_str().to_string(), self.ch.unwrap()),
+                    Some('/') => new_token(Tokens::SLASH.as_str().to_string(), self.ch.unwrap()),
+                    Some('<') => new_token(Tokens::LT.as_str().to_string(), self.ch.unwrap()),
+                    Some('>') => new_token(Tokens::GT.as_str().to_string(), self.ch.unwrap()),
                     Some('{') => new_token(Tokens::LBRACE.as_str().to_string(), self.ch.unwrap()),
                     Some('}') => new_token(Tokens::RBRACE.as_str().to_string(), self.ch.unwrap()),
                     None => Token {
