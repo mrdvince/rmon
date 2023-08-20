@@ -1,17 +1,21 @@
 use rmon::lexer::Lexer;
-use rmon::token::{Token, Tokens};
+use rmon::token::Tokens;
 
 #[test]
 fn test_next_token() {
-    let input = "let five = 5;\
-            \nlet ten = 10;\
-            \nlet add = fn(x, y) {\
-            \n  x + y;\
-            \n};\
-            \nlet result = add(five, ten);\
-            \n!-/*5;
-            \n5 < 10 > 5;
-            \n";
+    let input = "let five = 5;
+                let ten = 10;
+                let add = fn(x, y) {
+                    x + y;
+                };
+                let result = add(five, ten);
+                !-/*5;
+                5 < 10 > 5;
+                if (5 < 10) {
+                   return true;
+                } else {
+                   return false;
+                }";
 
     let tests = [
         (Tokens::LET.as_str(), "let"),
@@ -62,11 +66,28 @@ fn test_next_token() {
         (Tokens::GT.as_str(), ">"),
         (Tokens::INT.as_str(), "5"),
         (Tokens::SEMICOLON.as_str(), ";"),
+
+        (Tokens::IF.as_str(), "if"),
+        (Tokens::LPAREN.as_str(), "("),
+        (Tokens::INT.as_str(), "5"),
+        (Tokens::LT.as_str(), "<"),
+        (Tokens::INT.as_str(), "10"),
+        (Tokens::RPAREN.as_str(), ")"),
+        (Tokens::LBRACE.as_str(), "{"),
+        (Tokens::RETURN.as_str(), "return"),
+        (Tokens::TRUE.as_str(), "true"),
+        (Tokens::SEMICOLON.as_str(), ";"),
+        (Tokens::RBRACE.as_str(), "}"),
+        (Tokens::ELSE.as_str(), "else"),
+        (Tokens::LBRACE.as_str(), "{"),
+        (Tokens::RETURN.as_str(), "return"),
+        (Tokens::FALSE.as_str(), "false"),
+        (Tokens::SEMICOLON.as_str(), ";"),
+        (Tokens::RBRACE.as_str(), "}"),
         (Tokens::EOF.as_str(), ""),
     ];
 
     let mut l = Lexer::new(input);
-    println!("{l:?}");
     for (i, (expected_type, expected_literal)) in tests.iter().enumerate() {
         let tok = l.next_token();
         assert_eq!(

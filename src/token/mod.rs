@@ -34,6 +34,11 @@ pub enum Tokens {
     // keywords
     FUNCTION,
     LET,
+    TRUE,
+    FALSE,
+    IF,
+    ELSE,
+    RETURN,
 }
 
 impl Tokens {
@@ -59,6 +64,11 @@ impl Tokens {
             Tokens::RBRACE => "}",
             Tokens::FUNCTION => "FUNCTION",
             Tokens::LET => "LET",
+            Tokens::TRUE => "TRUE",
+            Tokens::FALSE => "FALSE",
+            Tokens::IF => "IF",
+            Tokens::ELSE => "ELSE",
+            Tokens::RETURN => "RETURN",
         }
     }
 }
@@ -68,6 +78,11 @@ lazy_static! {
         HashMap::from([
             ("fn", Tokens::FUNCTION.as_str()),
             ("let", Tokens::LET.as_str()),
+            ("true", Tokens::TRUE.as_str()),
+            ("false", Tokens::FALSE.as_str()),
+            ("if", Tokens::IF.as_str()),
+            ("else", Tokens::ELSE.as_str()),
+            ("return", Tokens::RETURN.as_str()),
         ])
     };
 }
