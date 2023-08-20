@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use crate::token::{look_up_ident, Token, TokenType, Tokens};
 
 #[derive(Debug)]
@@ -23,7 +21,7 @@ impl Lexer {
     }
     fn read_char(&mut self) {
         if self.read_postion >= self.input.len() {
-            self.ch = None
+            self.ch = None;
         } else {
             self.ch = self.input.chars().nth(self.read_postion);
         }
@@ -65,18 +63,6 @@ impl Lexer {
     pub fn next_token(&mut self) -> Token {
         self.skip_white_space();
         let tok = match self.ch {
-            Some('=') => new_token(Tokens::ASSIGN.as_str().to_string(), self.ch.unwrap()),
-            Some(';') => new_token(Tokens::SEMICOLON.as_str().to_string(), self.ch.unwrap()),
-            Some('(') => new_token(Tokens::LPAREN.as_str().to_string(), self.ch.unwrap()),
-            Some(')') => new_token(Tokens::RPAREN.as_str().to_string(), self.ch.unwrap()),
-            Some(',') => new_token(Tokens::COMMA.as_str().to_string(), self.ch.unwrap()),
-            Some('+') => new_token(Tokens::PLUS.as_str().to_string(), self.ch.unwrap()),
-            Some('{') => new_token(Tokens::LBRACE.as_str().to_string(), self.ch.unwrap()),
-            Some('}') => new_token(Tokens::RBRACE.as_str().to_string(), self.ch.unwrap()),
-            None => Token {
-                r#type: Tokens::EOF.as_str().to_string(),
-                literal: "".to_string(),
-            },
             Some(ch) if is_digit(ch) => {
                 let token_type = Tokens::INT.as_str().to_string();
                 let literal = self.read_number();
@@ -93,12 +79,36 @@ impl Lexer {
                     literal,
                 }
             }
-            _ => Token {
-                r#type: Tokens::ILLEGAL.as_str().to_string(),
-                literal: self.ch.map(|ch| ch.to_string()).unwrap_or_default(),
+            Some(_) => {
+                let tok = match self.ch {
+                    Some('=') => new_token(Tokens::ASSIGN.as_str().to_string(), self.ch.unwrap()),
+                    Some(';') => {
+                        new_token(Tokens::SEMICOLON.as_str().to_string(), self.ch.unwrap())
+                    }
+                    Some('(') => new_token(Tokens::LPAREN.as_str().to_string(), self.ch.unwrap()),
+                    Some(')') => new_token(Tokens::RPAREN.as_str().to_string(), self.ch.unwrap()),
+                    Some(',') => new_token(Tokens::COMMA.as_str().to_string(), self.ch.unwrap()),
+                    Some('+') => new_token(Tokens::PLUS.as_str().to_string(), self.ch.unwrap()),
+                    Some('{') => new_token(Tokens::LBRACE.as_str().to_string(), self.ch.unwrap()),
+                    Some('}') => new_token(Tokens::RBRACE.as_str().to_string(), self.ch.unwrap()),
+                    None => Token {
+                        r#type: Tokens::EOF.as_str().to_string(),
+                        literal: "".to_string(),
+                    },
+                    _ => Token {
+                        r#type: Tokens::ILLEGAL.as_str().to_string(),
+                        literal: self.ch.map(|ch| ch.to_string()).unwrap_or_default(),
+                    },
+                };
+                // Read the next character for single-character tokens
+                self.read_char();
+                tok
+            }
+            None => Token {
+                r#type: Tokens::EOF.as_str().to_string(),
+                literal: "".to_string(),
             },
         };
-        self.read_char();
         tok
     }
 }

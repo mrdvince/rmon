@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use lazy_static::lazy_static;
 
 pub type TokenType = String;
-
+#[derive(Debug)]
 pub struct Token {
     pub r#type: TokenType,
     pub literal: String,
