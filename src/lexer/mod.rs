@@ -41,8 +41,17 @@ impl Lexer {
         }
         self.input[start_position..self.position].to_string()
     }
-
+    fn skip_white_space(&mut self) {
+        while let Some(ch) = self.ch {
+            if ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r' {
+                self.read_char()
+            } else {
+                break;
+            }
+        }
+    }
     pub fn next_token(&mut self) -> Token {
+        self.skip_white_space();
         let tok = match self.ch {
             Some('=') => new_token(Tokens::ASSIGN.as_str().to_string(), self.ch.unwrap()),
             Some(';') => new_token(Tokens::SEMICOLON.as_str().to_string(), self.ch.unwrap()),
