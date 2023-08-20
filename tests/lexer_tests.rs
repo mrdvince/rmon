@@ -15,7 +15,10 @@ fn test_next_token() {
                    return true;
                 } else {
                    return false;
-                }";
+                }
+                10 == 10; 
+                10 != 9;
+                ";
 
     let tests = [
         (Tokens::LET.as_str(), "let"),
@@ -66,7 +69,6 @@ fn test_next_token() {
         (Tokens::GT.as_str(), ">"),
         (Tokens::INT.as_str(), "5"),
         (Tokens::SEMICOLON.as_str(), ";"),
-
         (Tokens::IF.as_str(), "if"),
         (Tokens::LPAREN.as_str(), "("),
         (Tokens::INT.as_str(), "5"),
@@ -84,6 +86,14 @@ fn test_next_token() {
         (Tokens::FALSE.as_str(), "false"),
         (Tokens::SEMICOLON.as_str(), ";"),
         (Tokens::RBRACE.as_str(), "}"),
+        (Tokens::INT.as_str(), "10"),
+        (Tokens::EQ.as_str(), "=="),
+        (Tokens::INT.as_str(), "10"),
+        (Tokens::SEMICOLON.as_str(), ";"),
+        (Tokens::INT.as_str(), "10"),
+        (Tokens::NotEq.as_str(), "!="),
+        (Tokens::INT.as_str(), "9"),
+        (Tokens::SEMICOLON.as_str(), ";"),
         (Tokens::EOF.as_str(), ""),
     ];
 

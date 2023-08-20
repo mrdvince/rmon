@@ -39,6 +39,8 @@ pub enum Tokens {
     IF,
     ELSE,
     RETURN,
+    EQ,
+    NotEq,
 }
 
 impl Tokens {
@@ -48,7 +50,7 @@ impl Tokens {
             Tokens::EOF => "EOF",
             Tokens::IDENT => "IDENT",
             Tokens::INT => "INT",
-            Tokens::ASSIGN => "ASSIGN",
+            Tokens::ASSIGN => "=",
             Tokens::PLUS => "+",
             Tokens::MINUS => "-",
             Tokens::BANG => "!",
@@ -69,6 +71,8 @@ impl Tokens {
             Tokens::IF => "IF",
             Tokens::ELSE => "ELSE",
             Tokens::RETURN => "RETURN",
+            Tokens::EQ => "==",
+            Tokens::NotEq => "!=",
         }
     }
 }

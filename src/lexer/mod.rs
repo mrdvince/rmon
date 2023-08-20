@@ -61,6 +61,13 @@ impl Lexer {
             }
         }
     }
+    fn peek_char(&self) -> Option<char> {
+        if self.read_postion >= self.input.len() {
+            None
+        } else {
+            self.input.chars().nth(self.read_postion)
+        }
+    }
     pub fn next_token(&mut self) -> Token {
         self.skip_white_space();
         let tok = match self.ch {
@@ -82,7 +89,18 @@ impl Lexer {
             }
             Some(_) => {
                 let tok = match self.ch {
-                    Some('=') => new_token(Tokens::ASSIGN.as_str().to_string(), self.ch.unwrap()),
+                    Some('=') => {
+                        if let Some('=') = self.peek_char() {
+                            let current_ch = self.ch.unwrap();
+                            self.read_char();
+                            Token {
+                                r#type: Tokens::EQ.as_str().to_string(),
+                                literal: format!("{}{}", current_ch, self.ch.unwrap()),
+                            }
+                        } else {
+                            new_token(Tokens::ASSIGN.as_str().to_string(), self.ch.unwrap())
+                        }
+                    }
                     Some(';') => {
                         new_token(Tokens::SEMICOLON.as_str().to_string(), self.ch.unwrap())
                     }
@@ -91,7 +109,18 @@ impl Lexer {
                     Some(',') => new_token(Tokens::COMMA.as_str().to_string(), self.ch.unwrap()),
                     Some('+') => new_token(Tokens::PLUS.as_str().to_string(), self.ch.unwrap()),
                     Some('-') => new_token(Tokens::MINUS.as_str().to_string(), self.ch.unwrap()),
-                    Some('!') => new_token(Tokens::BANG.as_str().to_string(), self.ch.unwrap()),
+                    Some('!') => {
+                        if let Some('=') = self.peek_char() {
+                            let current_ch = self.ch.unwrap();
+                            self.read_char();
+                            Token {
+                                r#type: Tokens::NotEq.as_str().to_string(),
+                                literal: format!("{}{}", current_ch, self.ch.unwrap()),
+                            }
+                        } else {
+                            new_token(Tokens::BANG.as_str().to_string(), self.ch.unwrap())
+                        }
+                    }
                     Some('*') => new_token(Tokens::ASTERISK.as_str().to_string(), self.ch.unwrap()),
                     Some('/') => new_token(Tokens::SLASH.as_str().to_string(), self.ch.unwrap()),
                     Some('<') => new_token(Tokens::LT.as_str().to_string(), self.ch.unwrap()),
