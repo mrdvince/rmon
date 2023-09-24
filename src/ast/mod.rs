@@ -1,3 +1,5 @@
+use crate::token;
+
 pub trait Node {
     fn token_literal(&self) -> String;
 }
@@ -22,4 +24,35 @@ impl Node for Program {
             "".to_string()
         }
     }
+}
+
+pub struct LetStatement {
+    token: token::Token,
+    name: Box<Identifier>,
+    value: Box<dyn Expression>,
+}
+
+impl Statement for LetStatement {
+    fn statement_node(&self) {}
+}
+
+impl Node for LetStatement {
+    fn token_literal(&self) -> String {
+        self.token.literal.clone()
+    }
+}
+
+pub struct Identifier {
+    token: token::Token,
+    value: String,
+}
+
+impl Node for Identifier {
+    fn token_literal(&self) -> String {
+        self.token.literal.clone()
+    }
+}
+
+impl Expression for Identifier {
+    fn expression_node(&self) {}
 }
